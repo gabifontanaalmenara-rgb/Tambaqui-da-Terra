@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tambaqui da Terra - Gestão Inteligente com IA</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ================= TELA DE AUTENTICAÇÃO ================= -->
+  <div id="auth-container">
+    <!-- CARD PRINCIPAL DE AUTENTICAÇÃO -->
+    <div class="auth-card">
+      <div class="logo-container">
+        <!-- Logotipo do Tambaqui Organico -->
+        <img class="app-logo" src="logo_tambaqui_organico PNG.png" alt="Tambaqui da Terra Logo">
+        <h2>Tambaqui da Terra</h2>
+        <p class="subtitle">Gestão Integral de Tambaqui com Inteligência Artificial</p>
+      </div>
+
+      <!-- 1. Formulário de Login Direto -->
+      <div id="login-form-wrapper">
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login-user">Nome de Usuário</label>
+            <input type="text" id="login-user" value="produtor" required placeholder="Digite seu usuário">
+          </div>
+          <div class="form-group">
+            <label for="login-pass">Senha</label>
+            <input type="password" id="login-pass" value="123" required placeholder="Digite sua senha">
+          </div>
+          <button type="submit" class="btn-primary">Entrar no Aplicativo</button>
+        </form>
+        
+        <div class="social-login">
+          <p>Ou acesse rapidamente usando:</p>
+          <div class="social-buttons">
+            <button class="btn-social">🔵 Facebook</button>
+            <button class="btn-social">🔴 Google</button>
+          </div>
+        </div>
+
+        <div class="auth-footer">
+          Não tem conta? <span class="auth-link" id="link-register">Registrar-se</span>
+        </div>
+      </div>
+
+      <!-- 2. Formulário de Registro de Usuário -->
+      <div id="register-user-wrapper" style="display: none;">
+        <form id="register-user-form">
+          <div class="form-group">
+            <label for="reg-name">Nome Completo</label>
+            <input type="text" id="reg-name" required placeholder="Ex: Manoel da Silva">
+          </div>
+          <div class="form-group">
+            <label for="reg-email">E-mail</label>
+            <input type="email" id="reg-email" required placeholder="Ex: manoel@email.com">
+          </div>
+          <div class="form-group">
+            <label for="reg-username">Nome de Usuário</label>
+            <input type="text" id="reg-username" required placeholder="Ex: manoelfazenda">
+          </div>
+          <div class="form-group">
+            <label for="reg-pass">Senha</label>
+            <input type="password" id="reg-pass" required placeholder="Crie uma senha segura">
+          </div>
+          <button type="submit" class="btn-primary">Criar Cadastro</button>
+        </form>
+        <div class="auth-footer">
+          Já tem conta? <span class="auth-link" id="link-login">Fazer Login</span>
+        </div>
+      </div>
+
+      <!-- 3. Formulário de Registro de Fazenda Legal -->
+      <div id="register-farm-wrapper" style="display: none;">
+        <h3>Registrar Fazenda de Tambaqui</h3>
+        <p class="subtitle" style="margin-bottom: 20px;">Insira os dados importantes e legais da sua piscicultura.</p>
+        
+        <form id="register-farm-form">
+          <div class="form-group">
+            <label for="farm-name-input">Nome da Fazenda</label>
+            <input type="text" id="farm-name-input" required placeholder="Ex: Piscicultura Santa Fé">
+          </div>
+          <div class="form-group">
+            <label for="farm-state-input">Estado (UF)</label>
+            <select id="farm-state-input" required>
+              <option value="AM">Amazonas (AM)</option>
+              <option value="RO">Rondônia (RO)</option>
+              <option value="AC">Acre (AC)</option>
+              <option value="PA">Pará (PA)</option>
+              <option value="TO">Tocantins (TO)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="farm-city-input">Município / Cidade</label>
+            <input type="text" id="farm-city-input" required placeholder="Ex: Iranduba">
+          </div>
+          <div class="form-group">
+            <label for="farm-license-input">Licença Ambiental (LO/LA)</label>
+            <input type="text" id="farm-license-input" required placeholder="Nº da Licença de Operação (Órgão Estadual)">
+          </div>
+          <div class="form-group">
+            <label for="farm-outorga-input">Outorga de Água</label>
+            <input type="text" id="farm-outorga-input" required placeholder="Nº da Outorga de Recursos Hídricos">
+          </div>
+          <div class="form-group">
+            <label for="farm-car-input">CAR (Cadastro Ambiental Rural)</label>
+            <input type="text" id="farm-car-input" required placeholder="Nº do Registro no CAR">
+          </div>
+          <button type="submit" class="btn-primary">Finalizar e Entrar</button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================= PAINEL DASHBOARD PRINCIPAL ================= -->
+  <div id="dashboard-container">
+    
+    <!-- Cabeçalho Principal -->
+    <header class="app-header">
+      <div class="header-brand">
+        <img class="header-logo" src="logo_tambaqui_organico PNG.png" alt="Logo">
+        <h1>Tambaqui da Terra</h1>
+      </div>
+      <div class="header-user-info">
+        <span class="farm-badge" id="header-farm-name">Fazenda Rio Solimões</span>
+        <span style="font-weight: 500;" id="header-user-display">Produtor</span>
+        <button class="btn-logout" id="btn-logout">Sair 🚪</button>
+      </div>
+    </header>
+
+    <!-- Layout Principal -->
+    <div class="app-layout">
+      
+      <!-- Navegação Lateral -->
+      <nav class="app-sidebar">
+        <div class="nav-item active" data-tab="boas-vindas">
+          <span class="nav-icon">👋</span> Boas-vindas
+        </div>
+        <div class="nav-item" data-tab="meu-tambaqui">
+          <span class="nav-icon">🐟</span> Meu Tambaqui
+        </div>
+        <div class="nav-item" data-tab="meu-tanque">
+          <span class="nav-icon">🌊</span> Meu tanque
+        </div>
+        <div class="nav-item" data-tab="clima">
+          <span class="nav-icon">☁️</span> Clima
+        </div>
+        <div class="nav-item" data-tab="mercado">
+          <span class="nav-icon">📈</span> Mercado
+        </div>
+        <div class="nav-item" data-tab="perfil">
+          <span class="nav-icon">👤</span> Perfil
+        </div>
+        <div class="nav-item" data-tab="mais-fazendas">
+          <span class="nav-icon">🚜</span> Mais fazendas
+        </div>
+        <div class="nav-item" data-tab="financeiro">
+          <span class="nav-icon">💰</span> Financeiro
+        </div>
+        <div class="nav-item" data-tab="previsao">
+          <span class="nav-icon">🔮</span> Previsão
+        </div>
+      </nav>
+
+      <!-- Área de Conteúdo das Abas -->
+      <main class="app-content">
+        
+        <!-- 1. Aba: Boas-vindas -->
+        <div class="tab-pane active" id="tab-boas-vindas">
+          <div class="section-header">
+            <h2 id="welcome-greeting">Olá, Produtor!</h2>
+            <p id="welcome-date" style="color: var(--text-muted); font-weight: 500;"></p>
+          </div>
+          
+          <div class="welcome-grid">
+            <div class="welcome-card-hero">
+              <div>
+                <h3 style="color: #fff; margin-bottom: 10px;">Produtividade sob Controle</h3>
+                <p>Nesta safra, a Iara monitora de perto o crescimento dos seus lotes e otimiza a conversão alimentar para reduzir seus custos com ração em até 40%.</p>
+              </div>
+              
+              <div class="quick-stats-row">
+                <div class="stat-card">
+                  <div class="stat-icon">🐟</div>
+                  <div class="stat-info">
+                    <h4>Previsão do Peixe</h4>
+                    <div class="stat-value" id="summary-fish-status">Calculando...</div>
+                    <div class="stat-subvalue" id="summary-fish-sub">Lotes estáveis</div>
+                  </div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-icon">🌊</div>
+                  <div class="stat-info">
+                    <h4>Estado do Tanque</h4>
+                    <div class="stat-value" id="summary-tank-status">Calculando...</div>
+                    <div class="stat-subvalue" id="summary-tank-sub">pH estável</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Previsão do Clima Rápida -->
+            <div class="weather-quick-card">
+              <div class="weather-quick-header">
+                <span style="font-weight: 600;">Clima em Tempo Real</span>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Previsão Agro</span>
+              </div>
+              <div class="weather-quick-icon" id="summary-weather-icon">⛅</div>
+              <div class="weather-quick-temp" id="summary-weather-temp">--°C</div>
+              <div class="weather-quick-desc" id="summary-weather-cond">Carregando...</div>
+              <div class="weather-quick-advice" id="summary-weather-advice">Carregando orientação...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Aba: Meu Tambaqui -->
+        <div class="tab-pane" id="tab-meu-tambaqui">
+          <div class="section-header">
+            <h2>Gestão do Lote de Peixes</h2>
+            <p style="color: var(--text-muted);">Histórico, peso médio, datas de colheita e alimentação recomendada.</p>
+          </div>
+          
+          <div class="view-tabs-container" id="tambaqui-subtabs">
+            <!-- Gerado via JS dinamicamente -->
+          </div>
+
+          <div id="tambaqui-details-wrapper">
+            <!-- Detalhes do Lote Selecionado via JS -->
+          </div>
+        </div>
+
+        <!-- 3. Aba: Meu Tanque -->
+        <div class="tab-pane" id="tab-meu-tanque">
+          <div class="section-header">
+            <h2>Gestão de Tanques</h2>
+            <p style="color: var(--text-muted);">Oxigênio, pH, temperatura da água, capacidade e cálculo de superpopulação.</p>
+          </div>
+          
+          <div class="view-tabs-container" id="tanque-subtabs">
+            <!-- Gerado via JS dinamicamente -->
+          </div>
+
+          <div id="tanque-details-wrapper">
+            <!-- Detalhes do Tanque via JS -->
+          </div>
+        </div>
+
+        <!-- 4. Aba: Clima -->
+        <div class="tab-pane" id="tab-clima">
+          <div class="section-header">
+            <h2>Monitoramento Agro-Climático</h2>
+            <p style="color: var(--text-muted);">Como as condições do tempo impactam a ração e o metabolismo do peixe.</p>
+          </div>
+          
+          <div class="weather-page-layout">
+            <div class="weather-quick-card">
+              <div class="weather-quick-header">
+                <span style="font-weight: 700;">Hoje</span>
+              </div>
+              <div class="weather-quick-icon" id="weather-main-icon">⛅</div>
+              <div class="weather-quick-temp" id="weather-main-temp">--°C</div>
+              <div class="weather-quick-desc" id="weather-main-cond">Carregando...</div>
+              <div style="font-size: 0.85rem; text-align: left; width: 100%; color: var(--text-muted); margin-bottom: 15px;">
+                <div id="weather-main-humidity">Umidade: --%</div>
+                <div id="weather-main-wind">Vento: -- km/h</div>
+                <div id="weather-main-rain">Chuva: --%</div>
+              </div>
+              <div class="weather-quick-advice" id="weather-main-advice"></div>
+            </div>
+            
+            <div class="weather-forecast-container">
+              <h3>Previsão para os Próximos Dias</h3>
+              <div class="weather-forecast-list" id="weather-forecast-list">
+                <!-- Gerado dinamicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Aba: Mercado -->
+        <div class="tab-pane" id="tab-mercado">
+          <div class="section-header">
+            <h2>Mercado do Tambaqui</h2>
+            <p style="color: var(--text-muted);">Valores do quilo por região e otimização de custo vs lucro da IA.</p>
+          </div>
+          
+          <div class="market-grid">
+            <div class="market-sidebar" id="market-regions-list">
+              <!-- Cotações Regionais via JS -->
+            </div>
+            
+            <div class="market-chart-container">
+              <div class="chart-header">
+                <h3>Tendência de Preços de Venda vs Custos</h3>
+                <button class="btn-integrate-chart" id="btn-integrate-market-charts">Integrar com Gráficos</button>
+              </div>
+              
+              <div class="canvas-wrapper">
+                <div id="market-chart-placeholder" style="text-align: center; padding: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                  <span style="font-size: 3rem; margin-bottom: 10px;">📊</span>
+                  <p style="color: var(--text-muted); max-width: 80%;">Clique em "Integrar com Gráficos" para cruzar o preço regional de venda do tambaqui com a projeção de custo de produção reduzido pela IA.</p>
+                </div>
+                <canvas id="market-canvas" style="display: none;"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6. Aba: Perfil -->
+        <div class="tab-pane" id="tab-perfil">
+          <div class="section-header">
+            <h2>Perfil do Piscicultor</h2>
+            <p style="color: var(--text-muted);">Gerencie seus dados de acesso e as informações governamentais/ambientais da fazenda ativa.</p>
+          </div>
+          
+          <div class="farm-verification-card" style="max-width: 800px; margin: 0;">
+            <form id="form-profile">
+              <h3 style="color: var(--primary); margin-bottom: 15px;">Informações Pessoais</h3>
+              <div class="grid-parameters" style="grid-template-columns: 1fr 1fr; margin-bottom: 25px;">
+                <div class="form-group">
+                  <label for="profile-name">Nome Completo</label>
+                  <input type="text" id="profile-name" required>
+                </div>
+                <div class="form-group">
+                  <label for="profile-email">E-mail</label>
+                  <input type="email" id="profile-email" required>
+                </div>
+                <div class="form-group">
+                  <label for="profile-phone">Telefone</label>
+                  <input type="text" id="profile-phone">
+                </div>
+                <div class="form-group">
+                  <label>Status SaaS</label>
+                  <input type="text" value="Assinatura Ativa (R$ 110,00/mês)" disabled style="border-color: var(--success); color: var(--success); font-weight: bold; background: rgba(46, 196, 182, 0.05);">
+                </div>
+              </div>
+
+              <h3 style="color: var(--primary); margin-bottom: 15px;">Dados Legais e Governamentais da Fazenda</h3>
+              <div class="grid-parameters" style="grid-template-columns: 1fr 1fr; margin-bottom: 25px;">
+                <div class="form-group">
+                  <label for="profile-farm-name">Nome da Fazenda</label>
+                  <input type="text" id="profile-farm-name" required>
+                </div>
+                <div class="form-group">
+                  <label for="profile-farm-license">Licença de Aquicultura</label>
+                  <input type="text" id="profile-farm-license" required>
+                </div>
+                <div class="form-group">
+                  <label for="profile-farm-outorga">Outorga de Água</label>
+                  <input type="text" id="profile-farm-outorga" required>
+                </div>
+                <div class="form-group">
+                  <label for="profile-farm-car">CAR (Registro Ambiental)</label>
+                  <input type="text" id="profile-farm-car" required>
+                </div>
+              </div>
+              
+              <button type="submit" class="btn-primary" style="max-width: 250px;">Salvar Alterações</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- 7. Aba: Mais Fazendas -->
+        <div class="tab-pane" id="tab-mais-fazendas">
+          <div class="section-header">
+            <h2>Multifazendas</h2>
+            <p style="color: var(--text-muted);">Gerencie outras propriedades rurais comprovando a legalidade da posse e as licenças.</p>
+          </div>
+          
+          <div class="details-grid">
+            <div>
+              <h3>Suas Fazendas Cadastradas</h3>
+              <div class="weather-forecast-list" id="additional-farms-list" style="margin-top: 15px;">
+                <!-- Lista de fazendas via JS -->
+              </div>
+            </div>
+            
+            <div class="farm-verification-card" style="margin: 0; width: 100%;">
+              <h3>Adicionar Nova Propriedade</h3>
+              <p class="subtitle" style="margin-bottom: 20px;">Você precisa anexar os dados legais. O acesso será cedido somente se baterem com o Cadastro Geral de Aquicultura.</p>
+              
+              <form id="form-add-farm">
+                <div id="add-farm-fields">
+                  <div class="form-group">
+                    <label for="add-farm-name">Nome da Fazenda</label>
+                    <input type="text" id="add-farm-name" required placeholder="Ex: Sítio Tambaqui de Ouro">
+                  </div>
+                  <div class="form-group">
+                    <label for="add-farm-state">Estado</label>
+                    <select id="add-farm-state" required>
+                      <option value="AM">Amazonas (AM)</option>
+                      <option value="RO">Rondônia (RO)</option>
+                      <option value="AC">Acre (AC)</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label for="add-farm-cnpj">CNPJ / CPF do Titular</label>
+                    <input type="text" id="add-farm-cnpj" required placeholder="Ex: 00.000.000/0001-00">
+                  </div>
+                  <div class="form-group">
+                    <label for="add-farm-license">Licença Ambiental (LO)</label>
+                    <input type="text" id="add-farm-license" required placeholder="Registro ambiental do órgão">
+                  </div>
+                  <button type="submit" class="btn-primary">Solicitar Permissão e Comprovar</button>
+                </div>
+                
+                <!-- Spinner de Validação Legal -->
+                <div id="farm-verification-status" class="verification-status-panel">
+                  <div class="spinner"></div>
+                  <h4 style="margin-bottom: 8px;">Efetuando Validação Legal</h4>
+                  <p style="font-size: 0.85rem; color: var(--text-muted);">Consultando banco de licenças do IBAMA e órgãos governamentais estaduais...</p>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- 8. Aba: Financeiro -->
+        <div class="tab-pane" id="tab-financeiro">
+          <div class="section-header">
+            <h2>Simulação Financeira (Ciclo de 8 a 12 Meses)</h2>
+            <p style="color: var(--text-muted);">Veja como o Fator de Conversão Alimentar (FCR) reduz seus custos com ração e multiplica seu lucro.</p>
+          </div>
+          
+          <div class="details-grid">
+            <!-- Painel de Inputs Interativos (Sliders) -->
+            <div class="card-details-main">
+              <h3 style="color: var(--primary); margin-bottom: 20px;">💵 Ajuste os Parâmetros da sua Safra</h3>
+              
+              <div class="slider-card">
+                <div class="slider-header">
+                  <span>Quantidade de Tambaquis no Lote</span>
+                  <span class="slider-value" id="val-fin-fish-count">1.000</span>
+                </div>
+                <div class="slider-group">
+                  <input type="range" id="slide-fin-fish-count" class="custom-slider" min="500" max="10000" step="500" value="1000">
+                </div>
+              </div>
+              
+              <div class="slider-card">
+                <div class="slider-header">
+                  <span>Custo Médio da Ração (R$ por Kg)</span>
+                  <span class="slider-value" id="val-fin-feed-price">R$ 4,50</span>
+                </div>
+                <div class="slider-group">
+                  <input type="range" id="slide-fin-feed-price" class="custom-slider" min="3.00" max="8.00" step="0.10" value="4.50">
+                </div>
+              </div>
+              
+              <div class="slider-card">
+                <div class="slider-header">
+                  <span>Preço de Venda do Tambaqui (R$ por Kg)</span>
+                  <span class="slider-value" id="val-fin-sale-price">R$ 13,00</span>
+                </div>
+                <div class="slider-group">
+                  <input type="range" id="slide-fin-sale-price" class="custom-slider" min="10.00" max="20.00" step="0.50" value="13.00">
+                </div>
+              </div>
+              
+              <div class="ai-advisor-panel" style="margin-top: 25px;">
+                <div class="ai-advisor-header"><span class="sparkle">✨</span> Explicação da Economia</div>
+                <div class="ai-advisor-content" style="font-size: 0.85rem;">
+                  <p>Mais de 80% do custo de um produtor tradicional vem de gastos ineficientes com ração (comida jogada na chuva que vai ao fundo, ou densidade alta que impede os peixes de crescerem). O Tambaqui da Terra otimiza isso, reduzindo o FCR de 2.1 para 1.3!</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Painel de Comparativo de Resultados -->
+            <div>
+              <div class="comparison-card-grid" style="margin-top: 0;">
+                
+                <!-- Cenário Empírico (Atual/Manejo Tradicional) -->
+                <div class="comp-card empiric">
+                  <div class="comp-title empiric">🔴 Manejo Tradicional</div>
+                  <div class="comp-row">
+                    <span class="comp-label">Sobreviventes</span>
+                    <span class="comp-value" id="fin-emp-harvest-count">800 peixes</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Biomassa Produzida</span>
+                    <span class="comp-value" id="fin-emp-biomass">960.0 kg</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Conversão (FCR)</span>
+                    <span class="comp-value">2.1</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Ração Consumida</span>
+                    <span class="comp-value" id="fin-emp-feed-used">2,016.0 kg</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Custo com Ração</span>
+                    <span class="comp-value" id="fin-emp-feed-cost">R$ 9.072,00</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Lucro Líquido Projetado</span>
+                    <span class="comp-value highlight danger" id="fin-emp-profit">R$ 1.408,00</span>
+                  </div>
+                </div>
+                
+                <!-- Cenário Otimizado (Melhores Condições com IA) -->
+                <div class="comp-card optimized">
+                  <div class="comp-title optimized">🟢 Com IA (Tambaqui da Terra)</div>
+                  <div class="comp-row">
+                    <span class="comp-label">Sobreviventes</span>
+                    <span class="comp-value" id="fin-ia-harvest-count">940 peixes</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Biomassa Produzida</span>
+                    <span class="comp-value" id="fin-ia-biomass">1,269.0 kg</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Conversão (FCR)</span>
+                    <span class="comp-value">1.3</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Ração Consumida</span>
+                    <span class="comp-value" id="fin-ia-feed-used">1,649.7 kg</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Custo com Ração</span>
+                    <span class="comp-value" id="fin-ia-feed-cost">R$ 7.423,65</span>
+                  </div>
+                  <div class="comp-row">
+                    <span class="comp-label">Lucro Líquido Projetado</span>
+                    <span class="comp-value highlight success" id="fin-ia-profit">R$ 7.426,35</span>
+                  </div>
+                </div>
+                
+              </div>
+              
+              <!-- Card de Destaque da Diferença -->
+              <div class="card-details-main" style="margin-top: 20px; border-left: 5px solid var(--success); background: rgba(46, 196, 182, 0.05);">
+                <h4 style="color: var(--success); font-size: 1.1rem; margin-bottom: 8px;">Diferença de Desempenho com a IA</h4>
+                <p><strong>Aumento de Lucro Líquido:</strong> <span style="color: var(--success); font-weight: bold; font-size: 1.1rem;" id="fin-diff-profit">R$ 6.018,30 (+427%)</span></p>
+                <p style="margin-top: 4px;"><strong>Ração economizada (evitando desperdício):</strong> <span id="fin-diff-feed">366.3 kg</span> (Economia de <span id="fin-diff-feed-cost" style="color: var(--success); font-weight: bold;">R$ 1.648,35</span> em ração)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 9. Aba: Previsão -->
+        <div class="tab-pane" id="tab-previsao">
+          <div class="section-header">
+            <h2>Previsão de Perdas e Sobrevivência</h2>
+            <p style="color: var(--text-muted);">Veja quantos peixes você deixa de perder ao controlar de perto as condições dos tanques e parâmetros químicos.</p>
+          </div>
+          
+          <div class="details-grid">
+            
+            <!-- Lado Esquerdo: Descrição e Gráficos de Barra de Sobrevivência -->
+            <div class="card-details-main">
+              <h3 style="color: var(--primary); margin-bottom: 15px;">📊 Comparação Visual de Perdas</h3>
+              <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px;">No cultivo empírico, a falta de aeração, pH ácido e superpopulação causam uma mortalidade média de 20%. Com o Tambaqui da Terra, a mortalidade cai para apenas 6%.</p>
+              
+              <!-- Barra de Sobrevivência Empírica -->
+              <div class="survival-comparison-box">
+                <div class="survival-bar-label">
+                  <span>Manejo Tradicional (Sobrevivência: 80%)</span>
+                  <span style="color: var(--danger);">Mortalidade: 20%</span>
+                </div>
+                <div class="survival-bar-outer">
+                  <div class="survival-bar-inner empiric" id="bar-emp-survival" style="width: 80%;"></div>
+                  <span class="survival-bar-text" id="bar-emp-text">800 sobreviventes / 200 perdidos</span>
+                </div>
+              </div>
+              
+              <!-- Barra de Sobrevivência IA -->
+              <div class="survival-comparison-box" style="margin-top: 25px;">
+                <div class="survival-bar-label">
+                  <span>Manejo com IA (Sobrevivência: 94%)</span>
+                  <span style="color: var(--success);">Mortalidade: 6%</span>
+                </div>
+                <div class="survival-bar-outer">
+                  <div class="survival-bar-inner optimized" id="bar-ia-survival" style="width: 94%;"></div>
+                  <span class="survival-bar-text" id="bar-ia-text">940 sobreviventes / 60 perdidos</span>
+                </div>
+              </div>
+              
+              <div class="ai-advisor-panel" style="margin-top: 30px;">
+                <div class="ai-advisor-header"><span class="sparkle">✨</span> Impacto da Mortalidade na Ração</div>
+                <div class="ai-advisor-content" style="font-size: 0.85rem;">
+                  <p>O peixe que morre aos 6 meses já consumiu mais de 1.5kg de ração. A morte tardia é o pior prejuízo na piscicultura, pois a ração consumida por ele foi totalmente perdida. O controle de água da IA previne picos de amônia e quedas de oxigênio que causam essas mortes.</p>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Lado Direito: Cards de Dados e Prejuízo de Perda -->
+            <div>
+              <div class="comp-card empiric" style="margin-bottom: 20px;">
+                <div class="comp-title empiric">🔴 Prejuízo no Manejo Tradicional</div>
+                <div class="comp-row">
+                  <span class="comp-label">Peixes Mortos (20% de perda)</span>
+                  <span class="comp-value" id="prev-emp-lost-qty" style="color: var(--danger); font-weight: bold;">200 peixes</span>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-label">Valor de Mercado Perdido</span>
+                  <span class="comp-value highlight danger" id="prev-emp-lost-value">R$ 3.250,00</span>
+                </div>
+                <div class="comp-row" style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 8px;">
+                  <span>*Baseado no peso final médio de 1.25 kg</span>
+                </div>
+              </div>
+              
+              <div class="comp-card optimized" style="margin-bottom: 20px;">
+                <div class="comp-title optimized">🟢 Prejuízo no Manejo com IA</div>
+                <div class="comp-row">
+                  <span class="comp-label">Peixes Mortos (6% de perda)</span>
+                  <span class="comp-value" id="prev-ia-lost-qty" style="color: var(--success); font-weight: bold;">60 peixes</span>
+                </div>
+                <div class="comp-row">
+                  <span class="comp-label">Valor de Mercado Perdido</span>
+                  <span class="comp-value highlight success" id="prev-ia-lost-value">R$ 975,00</span>
+                </div>
+                <div class="comp-row" style="font-size: 0.8rem; color: var(--text-muted); border-top: 1px dashed rgba(255,255,255,0.05); padding-top: 8px;">
+                  <span>*Baseado no peso final médio de 1.25 kg</span>
+                </div>
+              </div>
+              
+              <!-- Card de Economia de Vidas -->
+              <div class="card-details-main" style="border-left: 5px solid var(--primary); background: rgba(0, 180, 216, 0.05);">
+                <h4 style="color: var(--primary); font-size: 1.1rem; margin-bottom: 8px;">Vidas Salvas com a IA Iara</h4>
+                <p><strong>Total de peixes salvos (sobreviventes extras):</strong> <span style="color: var(--primary); font-weight: bold; font-size: 1.1rem;" id="prev-diff-fish-saved">140 peixes</span></p>
+                <p style="margin-top: 4px;"><strong>Prejuízo Evitado (Receita Salva):</strong> <span id="prev-diff-loss-saved" style="color: var(--success); font-weight: bold; font-size: 1.1rem;">R$ 2.275,00</span></p>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+
+  <!-- ================= ASSISTENTE DE VOZ IA IARA (FLUTUANTE) ================= -->
+  <div id="iara-widget">
+    <!-- Chatbox da Iara -->
+    <div class="iara-chatbox" id="iara-chatbox">
+      <div class="iara-chat-header">
+        <div class="iara-header-info">
+          <span class="iara-header-avatar">🧜‍♀️</span>
+          <div>
+            <h3>Iara - Assistente Inteligente</h3>
+            <p>Acessibilidade por Voz Ativa</p>
+          </div>
+        </div>
+        <button class="btn-close-chat" id="close-iara-chat">✕</button>
+      </div>
+      
+      <!-- Corpo com histórico de mensagens -->
+      <div class="iara-chat-body" id="iara-chat-history">
+        <!-- Bolhas de chat geradas via JS -->
+      </div>
+      
+      <!-- Ondas animadas de som de voz da Iara -->
+      <div class="iara-voice-wave-container" id="iara-voice-wave">
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+        <div class="voice-bar"></div>
+      </div>
+      
+      <!-- Atalhos rápidos de clique para piscicultores familiares -->
+      <div class="quick-assist-container">
+        <button class="btn-quick-ask" data-query="Quanta ração colocar hoje?">🍚 Quanto de ração hoje?</button>
+        <button class="btn-quick-ask" data-query="Quando será a despesca dos peixes?">🎣 Quando pescar peixes?</button>
+        <button class="btn-quick-ask" data-query="Como está a água do tanque?">🌊 Como está a água?</button>
+        <button class="btn-quick-ask" data-query="Como economizar com essa chuva?">⛈️ Dica de Chuva</button>
+      </div>
+      
+      <!-- Entrada por fala e por digitação -->
+      <div class="iara-chat-input-bar">
+        <input type="text" class="iara-text-input" id="iara-text-input" placeholder="Escreva sua dúvida aqui...">
+        <button class="btn-iara-voice" id="iara-mic-btn">🎙️ Falar</button>
+      </div>
+    </div>
+    
+    <!-- Botão de Avatar da Sereia Iara -->
+    <button class="iara-avatar-btn" id="iara-avatar" title="Falar com a Iara">🧜‍♀️</button>
+  </div>
+
+
+  <!-- ================= MODAIS POPUP (ADICIONAR/TRANSFERIR) ================= -->
+  
+  <!-- 1. Modal Adicionar Lote -->
+  <div class="modal-overlay" id="modal-add-lot">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Adicionar Novo Lote de Peixes</h3>
+        <button class="btn-small btn-danger-small" onclick="closeModal('modal-add-lot')">✕</button>
+      </div>
+      <form id="form-add-lot">
+        <div class="form-group">
+          <label for="add-lot-name">Nome Padrão</label>
+          <input type="text" id="add-lot-name" value="Peixes Novo Lote" required>
+        </div>
+        <div class="form-group">
+          <label for="add-lot-tank">Tanque Destino</label>
+          <select id="add-lot-tank" required>
+            <option value="tank-1">Tanque Principal</option>
+            <option value="tank-2">Tanque Juvenil</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add-lot-qty">Quantidade de Alevinos</label>
+          <input type="number" id="add-lot-qty" value="300" required min="1">
+        </div>
+        <div class="form-group">
+          <label for="add-lot-weight">Peso Médio Inicial (gramas)</label>
+          <input type="number" id="add-lot-weight" value="50" required min="1" step="0.1">
+        </div>
+        <div class="form-group">
+          <label for="add-lot-age">Idade Inicial (dias)</label>
+          <input type="number" id="add-lot-age" value="30" required min="1">
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn-secondary" onclick="closeModal('modal-add-lot')">Cancelar</button>
+          <button type="submit" class="btn-primary" style="flex: 1;">Adicionar Lote</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 2. Modal Adicionar Tanque -->
+  <div class="modal-overlay" id="modal-add-tank">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Adicionar Novo Tanque</h3>
+        <button class="btn-small btn-danger-small" onclick="closeModal('modal-add-tank')">✕</button>
+      </div>
+      <form id="form-add-tank">
+        <div class="form-group">
+          <label for="add-tank-name">Nome Padrão</label>
+          <input type="text" id="add-tank-name" value="Tanque Novo" required>
+        </div>
+        <div class="form-group">
+          <label for="add-tank-type">Tipo de Tanque</label>
+          <select id="add-tank-type" required>
+            <option value="Escavado">Escavado (Terra)</option>
+            <option value="Alvenaria">Alvenaria (Tijolo/Cimento)</option>
+            <option value="Rede">Tanque Rede</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="add-tank-vol">Volume de Água (m³)</label>
+          <input type="number" id="add-tank-vol" value="100" required min="1">
+        </div>
+        <div class="form-group">
+          <label for="add-tank-area">Área Superficial (m²)</label>
+          <input type="number" id="add-tank-area" value="70" required min="1">
+        </div>
+        <div class="form-group">
+          <label for="add-tank-water">Fonte da Água</label>
+          <input type="text" id="add-tank-water" value="Rio/Igarapé" required>
+        </div>
+        <div class="modal-footer-btns">
+          <button type="button" class="btn-secondary" onclick="closeModal('modal-add-tank')">Cancelar</button>
+          <button type="submit" class="btn-primary" style="flex: 1;">Adicionar Tanque</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Modal Transferir Peixe de Tanque -->
+  <div class="modal-overlay" id="modal-transfer">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Transferir Lote para outro Tanque</h3>
+        <button class="btn-small btn-danger-small" onclick="closeModal('modal-transfer')">✕</button>
+      </div>
+      <div class="form-group">
+        <label for="transfer-lot-select">Lote de Origem</label>
+        <select id="transfer-lot-select"></select>
+      </div>
+      <div class="form-group">
+        <label for="transfer-dest-select">Tanque de Destino</label>
+        <select id="transfer-dest-select"></select>
+      </div>
+      <div class="form-group">
+        <label for="transfer-quantity">Quantidade de Peixes a Mover</label>
+        <input type="number" id="transfer-quantity" value="100" min="1">
+      </div>
+      <div class="modal-footer-btns">
+        <button type="button" class="btn-secondary" onclick="closeModal('modal-transfer')">Cancelar</button>
+        <button type="button" class="btn-primary" style="flex: 1;" onclick="processTransfer()">Confirmar Transferência</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ================= JAVASCRIPT MODULAR ================= -->
+  <script src="js/data.js"></script>
+  <script src="js/simulation.js"></script>
+  <script src="js/iara.js"></script>
+  <script src="js/app.js"></script>
+
+</body>
+</html>
